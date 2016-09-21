@@ -5,6 +5,7 @@
     "emitEntryPoint": true
   },
   "dependencies": {
+    "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "VstsNotifications.Services": {
       "target": "project"
     }

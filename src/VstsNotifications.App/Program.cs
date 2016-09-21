@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace VstsNotifications.App
+﻿namespace VstsNotifications.App
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var application = new Application.Application();
+            application.Run();
         }
     }
 }
