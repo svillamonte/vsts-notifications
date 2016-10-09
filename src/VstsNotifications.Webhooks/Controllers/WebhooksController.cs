@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VstsNotifications.Webhooks.Models;
 
 namespace VstsNotifications.Webhooks.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class WebhooksController : Controller
     {
         // GET api/values
         [HttpGet]
@@ -25,8 +26,10 @@ namespace VstsNotifications.Webhooks.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]PullRequestPayload payload)
         {
+            var returnObject = new { date = payload };
+            return CreatedAtAction("Post", returnObject);
         }
 
         // PUT api/values/5
