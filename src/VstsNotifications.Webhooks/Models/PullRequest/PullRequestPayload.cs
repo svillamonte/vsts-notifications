@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace VstsNotifications.Webhooks.Models
+namespace VstsNotifications.Webhooks.Models.PullRequest
 {
     public class PullRequestPayload : BasePayload
     {

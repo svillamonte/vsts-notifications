@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 
-namespace VstsNotifications.Webhooks.Models
+namespace VstsNotifications.Webhooks.Models.PullRequest
 {
     public class PullRequestResource
     {

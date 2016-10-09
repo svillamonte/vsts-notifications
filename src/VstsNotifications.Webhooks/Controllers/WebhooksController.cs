@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using VstsNotifications.Webhooks.Models;
+using VstsNotifications.Webhooks.Models.PullRequest;
 
 namespace VstsNotifications.Webhooks.Controllers
 {
