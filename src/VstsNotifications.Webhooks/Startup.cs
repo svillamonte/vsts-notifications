@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VstsNotifications.Webhooks.Properties;
 
 namespace VstsNotifications.Webhooks
 {
@@ -27,6 +28,9 @@ namespace VstsNotifications.Webhooks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // App settings.
+            services.Configure<Settings>(Configuration.GetSection("Settings"));
+
             // Add framework services.
             services.AddMvc();
         }
