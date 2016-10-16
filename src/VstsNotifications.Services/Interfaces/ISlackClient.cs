@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
+using VstsNotifications.Services.Models;
+
 namespace VstsNotifications.Services.Interfaces
 {
     public interface ISlackClient
     {
-        void PostMessage();
+        Task<bool> PostMessage(SlackMessagePayload slackMessage, string webhookUrl);
     }
 }
