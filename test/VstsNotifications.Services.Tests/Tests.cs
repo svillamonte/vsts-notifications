@@ -21,8 +21,6 @@ namespace VstsNotifications.Tests.Services
             var slackClient = new SlackClient(httpClient);
             var response = slackClient.PostMessage(payload, url);
 
-            Console.WriteLine(response.Result);
-
             Assert.True(true);
         }
     }

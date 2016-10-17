@@ -1,16 +1,108 @@
 using System;
+using System.Net;
 using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
+using Newtonsoft.Json;
+using VstsNotifications.Services.Interfaces;
+using System.Text;
+using System.Net.Http;
+using VstsNotifications.Services.Models;
 
 namespace VstsNotifications.Services.Tests
 {
     public class SlackClientTests
     {
-        [Fact]
-        public void PostMessage()
+        private readonly Mock<IHttpClient> _mockHttpClient;
+        private readonly ISlackClient _slackClient;
+
+        public SlackClientTests ()
         {
+            _mockHttpClient = new Mock<IHttpClient>();
+            _slackClient = new SlackClient(_mockHttpClient.Object);
+        }
+
+        [Fact]
+        public async Task PostMessageWithAcceptedResponseReturnsTrue()
+        {
+            // Arrange
+            const string webhookUrl = "https://some.good.url/";
+
+            var slackMessagePayload = new SlackMessagePayload 
+            { 
+                Username = "a_user",
+                Text = "a_text" 
+            };
+
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                Content = new StringContent("ok", Encoding.UTF8, "text/html"),
+                StatusCode = HttpStatusCode.Accepted
+            };
+            
+            _mockHttpClient
+                .Setup(x => x.PostAsync(webhookUrl, It.IsAny<HttpContent>()))
+                .ReturnsAsync(httpResponseMessage);
+
+            // Act
+            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+
+            // Assert
+            Assert.True(response);
+        }
+
+        [Fact]
+        public async Task PostMessageWithBadRequestResponseReturnsFalse()
+        {
+            // Arrange
+            const string webhookUrl = "https://some.good.url/";
+
+            var slackMessagePayload = new SlackMessagePayload 
+            { 
+                Username = "a_user",
+                Text = "a_text" 
+            };
+
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                Content = new StringContent("invalid", Encoding.UTF8, "text/html"),
+                StatusCode = HttpStatusCode.BadRequest
+            };
+            
+            _mockHttpClient
+                .Setup(x => x.PostAsync(webhookUrl, It.IsAny<HttpContent>()))
+                .ReturnsAsync(httpResponseMessage);
+                
+            // Act
+            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+
+            // Assert
+            Assert.False(response);
+        }
+
+        [Fact]
+        public async Task PostMessageThrowsNullReferenceExceptionReturnsFalse()
+        {
+            // Arrange
+            const string webhookUrl = "https://some.good.url/";
+
+            var slackMessagePayload = new SlackMessagePayload 
+            { 
+                Username = "a_user",
+                Text = "a_text" 
+            };
+            
+            _mockHttpClient
+                .Setup(x => x.PostAsync(webhookUrl, It.IsAny<HttpContent>()))
+                .Throws(new NullReferenceException());
+                
+            // Act
+            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+
+            // Assert
+            Assert.False(response);
         }
     }
 }
