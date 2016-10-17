@@ -1,11 +1,8 @@
 using System;
 using System.Net;
 using Xunit;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Moq;
-using Newtonsoft.Json;
 using VstsNotifications.Services.Interfaces;
 using System.Text;
 using System.Net.Http;
