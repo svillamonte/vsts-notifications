@@ -8,7 +8,7 @@ namespace VstsNotifications.Tests.Services
 {
     public class Tests
     {
-        [Fact]
+        // [Fact]
         public void Test1() 
         {
             var url = "https://hooks.slack.com/services/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";
