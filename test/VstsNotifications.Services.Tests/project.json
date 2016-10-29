@@ -10,6 +10,9 @@
     "moq": "4.6.38-alpha",
     "VstsNotifications.Services": {
       "target": "project"
+    },
+    "VstsNotifications.Entities": {
+      "target": "project"
     }
   },
   "testRunner": "xunit",
