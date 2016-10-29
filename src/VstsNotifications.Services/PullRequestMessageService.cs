@@ -17,7 +17,7 @@ namespace VstsNotifications.Services
                 yield return new PullRequestMessage
                 {
                     ReviewerSlackHandle = contributors[reviewer.UniqueName],
-                    AuthorDisplayName = pullRequestInfo.Author?.DisplayName,
+                    AuthorDisplayName = pullRequestInfo.Author.DisplayName,
                     PullRequestUrl = pullRequestInfo.Url
                 };
             }
