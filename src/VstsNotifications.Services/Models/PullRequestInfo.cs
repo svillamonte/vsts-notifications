@@ -8,6 +8,7 @@ namespace VstsNotifications.Services.Models
         public PullRequestInfo ()
         {
             Reviewers = new List<Collaborator>();
+            Author = new Collaborator();
         }
 
         public Uri Url { get; set; }

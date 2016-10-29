@@ -10,6 +10,7 @@ namespace VstsNotifications.Services.Models
         public Message()
         {
             Contributors = new Collection<Contributor>();
+            PullRequestInfo = new PullRequestInfo();
         }
 
         public Uri SlackWebhookUrl { get; set; }
