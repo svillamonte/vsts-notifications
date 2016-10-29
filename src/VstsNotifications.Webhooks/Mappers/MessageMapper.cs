@@ -17,17 +17,19 @@ namespace VstsNotifications.Webhooks.Mappers
 
         public Message MapMessage(PullRequestPayload pullRequestPayload, Settings settings)
         {
-            if (pullRequestPayload == null || settings == null)
+            try 
             {
-                return null;
+                return new Message 
+                { 
+                    SlackWebhookUrl = new Uri(settings.SlackWebhookUrl),
+                    Contributors = settings.Contributors,
+                    PullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload.Resource) 
+                };
             }
-
-            return new Message 
-            { 
-                SlackWebhookUrl = settings.SlackWebhookUrl != null ? new Uri(settings.SlackWebhookUrl) : null,
-                Contributors = settings.Contributors,
-                PullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload) 
-            };
+            catch
+            {
+                return new Message();
+            }            
         }
     }
 }

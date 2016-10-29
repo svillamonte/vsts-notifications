@@ -8,11 +8,6 @@ namespace VstsNotifications.Webhooks.Mappers
     {
         public Collaborator MapCollaborator(Contributor contributor)
         {
-            if (contributor == null)
-            {
-                return null;
-            }
-
             return new Collaborator
             {
                 UniqueName = contributor.UniqueName,

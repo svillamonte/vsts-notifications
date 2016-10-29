@@ -9,6 +9,7 @@ namespace VstsNotifications.Webhooks.Models.PullRequest
     {
         public PullRequestResource()
         {          
+            CreatedBy = new Contributor();
             Reviewers = new Collection<Reviewer>();
         }
 

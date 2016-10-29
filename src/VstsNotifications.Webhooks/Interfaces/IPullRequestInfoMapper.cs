@@ -5,6 +5,6 @@ namespace VstsNotifications.Webhooks.Interfaces
 {
     public interface IPullRequestInfoMapper
     {
-        PullRequestInfo MapPullRequestInfo(PullRequestPayload pullRequestPayload);
+        PullRequestInfo MapPullRequestInfo(PullRequestResource pullRequestResource);
     }
 }

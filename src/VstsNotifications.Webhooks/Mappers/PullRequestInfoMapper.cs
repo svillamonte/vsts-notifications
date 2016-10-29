@@ -13,15 +13,8 @@ namespace VstsNotifications.Webhooks.Mappers
             _collaboratorMapper = collaboratorMapper;          
         }
 
-        public PullRequestInfo MapPullRequestInfo(PullRequestPayload pullRequestPayload)
+        public PullRequestInfo MapPullRequestInfo(PullRequestResource pullRequestResource)
         {
-            if (pullRequestPayload == null || pullRequestPayload.Resource == null)
-            {
-                return null;
-            }
-
-            var pullRequestResource = pullRequestPayload.Resource;
-
             var pullRequestInfo = new PullRequestInfo
             {
                 Url = pullRequestResource.Url,

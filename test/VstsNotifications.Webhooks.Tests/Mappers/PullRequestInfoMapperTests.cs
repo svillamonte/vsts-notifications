@@ -25,26 +25,12 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
         public void MapPullRequestInfoWithNullPayloadReturnsNull()
         {
             // Arrange
-            var pullRequestPayload = (PullRequestPayload) null;
+            var pullRequestResource = (PullRequestResource) null;
 
             // Act
-            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload);
-
+            
             // Assert
-            Assert.Null(pullRequestInfo);
-        }
-
-        [Fact]
-        public void MapPullRequestInfoWithNullResourceReturnsNull()
-        {
-            // Arrange
-            var pullRequestPayload = new PullRequestPayload();
-
-            // Act
-            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload);
-
-            // Assert
-            Assert.Null(pullRequestInfo);
+            Assert.Throws<NullReferenceException>(() => _pullRequestInfoMapper.MapPullRequestInfo(pullRequestResource));
         }
 
         [Fact]
@@ -52,19 +38,19 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
         {
             // Arrange
             var pullRequestResource = new PullRequestResource();
-            var pullRequestPayload = new PullRequestPayload { Resource = pullRequestResource };
 
             _mockCollaboratorMapper
                 .Setup(x => x.MapCollaborator(pullRequestResource.CreatedBy))
-                .Returns((Collaborator) null);
+                .Returns(new Collaborator());
 
             // Act
-            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload);
+            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestResource);
 
             // Assert
             Assert.NotNull(pullRequestInfo);
             Assert.Null(pullRequestInfo.Url);
-            Assert.Null(pullRequestInfo.Author);
+            Assert.Null(pullRequestInfo.Author.DisplayName);
+            Assert.Null(pullRequestInfo.Author.UniqueName);
             Assert.Empty(pullRequestInfo.Reviewers);
         }
 
@@ -72,22 +58,18 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
         public void MapPullRequestInfoWithResourcePopulatedReturnsInfoValues()
         {
             // Arrange
-            var creator = new Contributor { UniqueName = "unique", DisplayName = "display" };
-
             var pullRequestResource = new PullRequestResource 
             {
                 Url = new Uri("https://wwww.myurl.com"),
-                CreatedBy = creator
+                CreatedBy = new Contributor { UniqueName = "unique", DisplayName = "display" }
             };
-
-            var pullRequestPayload = new PullRequestPayload { Resource = pullRequestResource };
 
             _mockCollaboratorMapper
                 .Setup(x => x.MapCollaborator(pullRequestResource.CreatedBy))
-                .Returns(new Collaborator { UniqueName = creator.UniqueName, DisplayName = creator.DisplayName });
+                .Returns(new Collaborator { UniqueName = "unique", DisplayName = "display" });
 
             // Act
-            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload);
+            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestResource);
 
             // Assert
             Assert.NotNull(pullRequestInfo);
@@ -110,8 +92,6 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             pullRequestResource.Reviewers.Add(reviewerTwo);
             pullRequestResource.Reviewers.Add(reviewerThree);
 
-            var pullRequestPayload = new PullRequestPayload { Resource = pullRequestResource };
-
             _mockCollaboratorMapper
                 .Setup(x => x.MapCollaborator(pullRequestResource.CreatedBy))
                 .Returns((Collaborator) null);
@@ -126,7 +106,7 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
                 .Returns(new Collaborator { UniqueName = reviewerThree.UniqueName, DisplayName = reviewerThree.DisplayName });
 
             // Act
-            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload);
+            var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestResource);
             var reviewers = pullRequestInfo.Reviewers as List<Reviewer>;
 
             // Assert

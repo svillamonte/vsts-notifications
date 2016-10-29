@@ -1,13 +1,10 @@
 using System;
 using Moq;
 using Xunit;
-using VstsNotifications.Entities;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Mappers;
-using VstsNotifications.Webhooks.Models;
 using VstsNotifications.Webhooks.Models.PullRequest;
 using VstsNotifications.Services.Models;
-using System.Collections.Generic;
 using VstsNotifications.Webhooks.Properties;
 
 namespace VstsNotifications.Webhooks.Tests.Mappers
@@ -24,57 +21,11 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
         }
 
         [Fact]
-        public void MapMessageWithPayloadAndSettingsNullReturnsNull()
+        public void MapMessageWithPayloadAndSettingsNullReturnsEmptyMessage()
         {
             // Arrange
             var pullRequestPayload = (PullRequestPayload) null;
             var settings = (Settings) null;
-
-            // Act
-            var message = _messageMapper.MapMessage(pullRequestPayload, settings);
-
-            // Assert
-            Assert.Null(message);
-        }
-
-        [Fact]
-        public void MapMessageWithOnlyPayloadNullReturnsNull()
-        {
-            // Arrange
-            var pullRequestPayload = (PullRequestPayload) null;
-            var settings = new Settings();
-
-            // Act
-            var message = _messageMapper.MapMessage(pullRequestPayload, settings);
-
-            // Assert
-            Assert.Null(message);
-        }
-
-        [Fact]
-        public void MapMessageWithOnlySettingsNullReturnsNull()
-        {
-            // Arrange
-            var pullRequestPayload = new PullRequestPayload();
-            var settings = (Settings) null;
-
-            // Act
-            var message = _messageMapper.MapMessage(pullRequestPayload, settings);
-
-            // Assert
-            Assert.Null(message);
-        }
-
-        [Fact]
-        public void MapMessageWithPayloadAndSettingsInstantiatedNullReturnsEmptyMessage()
-        {
-            // Arrange
-            var pullRequestPayload = new PullRequestPayload();
-            var settings = new Settings();
-
-            _mockPullRequestInfoMapper
-                .Setup(x => x.MapPullRequestInfo(pullRequestPayload))
-                .Returns((PullRequestInfo) null);
 
             // Act
             var message = _messageMapper.MapMessage(pullRequestPayload, settings);
@@ -82,23 +33,75 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Assert
             Assert.NotNull(message);
             Assert.Null(message.SlackWebhookUrl);
-            Assert.Null(message.Contributors);
-            Assert.Null(message.PullRequestInfo);
+            Assert.Empty(message.Contributors);
+            Assert.NotNull(message.PullRequestInfo);
+        }
+
+        [Fact]
+        public void MapMessageWithPayloadAndSettingsInstantiatedReturnsEmptyMessage()
+        {
+            // Arrange
+            var pullRequestPayload = new PullRequestPayload();
+            var settings = new Settings();
+
+            _mockPullRequestInfoMapper
+                .Setup(x => x.MapPullRequestInfo(pullRequestPayload.Resource))
+                .Returns(new PullRequestInfo());
+
+            // Act
+            var message = _messageMapper.MapMessage(pullRequestPayload, settings);
+
+            // Assert
+            Assert.NotNull(message);
+            Assert.Null(message.SlackWebhookUrl);
+            Assert.Empty(message.Contributors);
+            Assert.NotNull(message.PullRequestInfo);
+        }
+
+        [Fact]
+        public void MapMessageWithPayloadAndSettingsPopulatedButNoSlackWebhookUrlReturnsEmptyMessageDueToArgumentNullException()
+        {
+            // Arrange
+            var pullRequestPayload = new PullRequestPayload();
+            
+            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackHandle = "one" };
+            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackHandle = "two" };
+            
+            var settings = new Settings
+            {
+                SlackWebhookUrl = null,
+                Contributors = new [] { contributorOne, contributorTwo }
+            };
+
+            var reviewerOne = new Collaborator { UniqueName = "rone unique", DisplayName = "rone display" };
+            var reviewerTwo = new Collaborator { UniqueName = "rtwo unique", DisplayName = "rtwo display" };
+
+            var pullRequestInfo = new PullRequestInfo 
+            { 
+                Url = new Uri("https://wwww.myurl.com"),
+                Author = new Collaborator { UniqueName = "author unique", DisplayName = "author display" }
+            };
+            pullRequestInfo.Reviewers.Add(reviewerOne);
+            pullRequestInfo.Reviewers.Add(reviewerTwo);
+
+            _mockPullRequestInfoMapper
+                .Setup(x => x.MapPullRequestInfo(pullRequestPayload.Resource))
+                .Returns(pullRequestInfo);
+
+            // Act
+            var message = _messageMapper.MapMessage(pullRequestPayload, settings);
+
+            // Assert
+            Assert.NotNull(message);
+
+            _mockPullRequestInfoMapper.Verify(x => x.MapPullRequestInfo(pullRequestPayload.Resource), Times.Never());
         }
 
         [Fact]
         public void MapMessageWithPayloadAndSettingsPopulatedReturnsMessageWithSettingsAndPullRequestInfo()
         {
             // Arrange
-            var creator = new Models.Contributor { UniqueName = "unique", DisplayName = "display" };
-
-            var pullRequestResource = new PullRequestResource 
-            {
-                Url = new Uri("https://wwww.myurl.com"),
-                CreatedBy = creator
-            };
-
-            var pullRequestPayload = new PullRequestPayload { Resource = pullRequestResource };
+            var pullRequestPayload = new PullRequestPayload();
             
             var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackHandle = "one" };
             var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackHandle = "two" };
@@ -112,18 +115,16 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             var reviewerOne = new Collaborator { UniqueName = "rone unique", DisplayName = "rone display" };
             var reviewerTwo = new Collaborator { UniqueName = "rtwo unique", DisplayName = "rtwo display" };
 
-            var author = new Collaborator { UniqueName = "author unique", DisplayName = "author display" };
-
             var pullRequestInfo = new PullRequestInfo 
             { 
-                Url = pullRequestResource.Url,
-                Author = author  
+                Url = new Uri("https://wwww.myurl.com"),
+                Author = new Collaborator { UniqueName = "author unique", DisplayName = "author display" }
             };
             pullRequestInfo.Reviewers.Add(reviewerOne);
             pullRequestInfo.Reviewers.Add(reviewerTwo);
 
             _mockPullRequestInfoMapper
-                .Setup(x => x.MapPullRequestInfo(pullRequestPayload))
+                .Setup(x => x.MapPullRequestInfo(pullRequestPayload.Resource))
                 .Returns(pullRequestInfo);
 
             // Act

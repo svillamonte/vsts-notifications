@@ -16,16 +16,15 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
         }
 
         [Fact]
-        public void MapCollaboratorWithContributorNullReturnsNull()
+        public void MapCollaboratorWithContributorNullThrowsNullReferenceException()
         {
             // Arrange
             var contributor = (Contributor) null;
 
             // Act
-            var collaborator = _collaboratorMapper.MapCollaborator(contributor);
-
+            
             // Assert
-            Assert.Null(collaborator);
+            Assert.Throws<NullReferenceException>(() => _collaboratorMapper.MapCollaborator(contributor));
         }
 
         [Fact]
