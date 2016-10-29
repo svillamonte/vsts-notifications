@@ -27,12 +27,6 @@ namespace VstsNotifications.Services.Tests
             // Arrange
             const string webhookUrl = "https://some.good.url/";
 
-            var slackMessagePayload = new SlackMessagePayload 
-            { 
-                Username = "a_user",
-                Text = "a_text" 
-            };
-
             var httpResponseMessage = new HttpResponseMessage
             {
                 Content = new StringContent("ok", Encoding.UTF8, "text/html"),
@@ -44,7 +38,7 @@ namespace VstsNotifications.Services.Tests
                 .ReturnsAsync(httpResponseMessage);
 
             // Act
-            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.True(response);
@@ -55,12 +49,6 @@ namespace VstsNotifications.Services.Tests
         {
             // Arrange
             const string webhookUrl = "https://some.good.url/";
-
-            var slackMessagePayload = new SlackMessagePayload 
-            { 
-                Username = "a_user",
-                Text = "a_text" 
-            };
 
             var httpResponseMessage = new HttpResponseMessage
             {
@@ -73,7 +61,7 @@ namespace VstsNotifications.Services.Tests
                 .ReturnsAsync(httpResponseMessage);
                 
             // Act
-            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.False(response);
@@ -84,19 +72,13 @@ namespace VstsNotifications.Services.Tests
         {
             // Arrange
             const string webhookUrl = "https://some.good.url/";
-
-            var slackMessagePayload = new SlackMessagePayload 
-            { 
-                Username = "a_user",
-                Text = "a_text" 
-            };
             
             _mockHttpClient
                 .Setup(x => x.PostAsync(webhookUrl, It.IsAny<HttpContent>()))
                 .Throws(new NullReferenceException());
                 
             // Act
-            var response = await _slackClient.PostMessage(slackMessagePayload, webhookUrl);
+            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.False(response);

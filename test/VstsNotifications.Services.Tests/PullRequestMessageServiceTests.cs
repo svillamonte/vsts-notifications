@@ -34,6 +34,24 @@ namespace VstsNotifications.Services.Tests
         }
         
         [Fact]
+        public void CreatePullRequestMessagesWithoutReviewersAndEmptyContributorsReturnsEmpty()
+        {
+            // Arrange
+            var contributorOne = new Contributor { Id = "idone", SlackHandle = "shone" };
+            var contributorTwo = new Contributor { Id = "idtwo", SlackHandle = "shtwo" };
+            
+            var pullRequestInfo = new PullRequestInfo();
+            var contributorsInfo = new Contributor[0];
+
+            // Act
+            var pullRequestMessages = _pullRequestMessageService.CreatePullRequestMessages(pullRequestInfo, contributorsInfo);
+
+            // Assert
+            Assert.NotNull(pullRequestMessages);
+            Assert.Empty(pullRequestMessages);
+        }
+        
+        [Fact]
         public void CreatePullRequestMessagesWithoutReviewersReturnsEmpty()
         {
             // Arrange
