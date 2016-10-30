@@ -106,5 +106,39 @@ namespace VstsNotifications.Services.Tests
             Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(1).AuthorDisplayName);
             Assert.Equal(pullRequestInfo.Url, pullRequestMessages.ElementAt(1).PullRequestUrl);
         }
+
+        [Fact]
+        public void CreatePullRequestMessagesWithMissingContributorReturnsPullRequestMessagesForExistingOnes()
+        {
+            // Arrange
+            var contributorOne = new Contributor { Id = "two@collaborator.com", SlackHandle = "shone" };
+            var contributorTwo = new Contributor { Id = "four@collaborator.com", SlackHandle = "shfour" };
+
+            var author = new Collaborator { UniqueName = "one@collaborator.com", DisplayName = "Collaborator one" };
+
+            var reviewerOne = new Collaborator { UniqueName = "two@collaborator.com", DisplayName = "Collaborator two" };
+            var reviewerTwo = new Collaborator { UniqueName = "three@collaborator.com", DisplayName = "Collaborator three" };
+
+            var pullRequestInfo = new PullRequestInfo
+            {
+                Url = new Uri("http://my.pullrequest.com"),
+                Author = author,
+            };
+            pullRequestInfo.Reviewers.Add(reviewerOne);
+            pullRequestInfo.Reviewers.Add(reviewerTwo);
+
+            var contributorsInfo = new [] { contributorOne, contributorTwo };
+
+            // Act
+            var pullRequestMessages = _pullRequestMessageService.CreatePullRequestMessages(pullRequestInfo, contributorsInfo);
+
+            // Assert
+            Assert.NotNull(pullRequestMessages);
+            Assert.Equal(pullRequestInfo.Reviewers.Count - 1, pullRequestMessages.Count());
+
+            Assert.Equal(contributorOne.SlackHandle, pullRequestMessages.ElementAt(0).ReviewerSlackHandle);
+            Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(0).AuthorDisplayName);
+            Assert.Equal(pullRequestInfo.Url, pullRequestMessages.ElementAt(0).PullRequestUrl);
+        }
     }
 }

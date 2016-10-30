@@ -14,6 +14,12 @@ namespace VstsNotifications.Services
 
             foreach (var reviewer in pullRequestInfo.Reviewers)
             {
+                // No message is created if can't find reviewer's handle.
+                if (!contributors.ContainsKey(reviewer.UniqueName))
+                {
+                    continue;
+                }
+
                 yield return new PullRequestMessage
                 {
                     ReviewerSlackHandle = contributors[reviewer.UniqueName],
