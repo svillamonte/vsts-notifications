@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VstsNotifications.Services;
+using VstsNotifications.Services.Interfaces;
+using VstsNotifications.Services.Wrappers;
+using VstsNotifications.Webhooks.Interfaces;
+using VstsNotifications.Webhooks.Mappers;
 using VstsNotifications.Webhooks.Properties;
 
 namespace VstsNotifications.Webhooks
@@ -31,6 +36,9 @@ namespace VstsNotifications.Webhooks
             // App settings.
             services.Configure<Settings>(Configuration.GetSection("Settings"));
 
+            AddMappers(services);
+            AddServices(services);
+
             // Add framework services.
             services.AddMvc();
         }
@@ -42,6 +50,23 @@ namespace VstsNotifications.Webhooks
             loggerFactory.AddDebug();
 
             app.UseMvc();
+        }
+
+        private void AddMappers(IServiceCollection services)
+        {
+            services.AddScoped<ICollaboratorMapper, CollaboratorMapper>();
+            services.AddScoped<IMessageMapper, MessageMapper>();
+            services.AddScoped<IPullRequestInfoMapper, PullRequestInfoMapper>();
+        }
+
+        private void AddServices(IServiceCollection services)
+        {
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IPullRequestMessageService, PullRequestMessageService>();
+            services.AddScoped<ISlackMessagePayloadService, SlackMessagePayloadService>();
+
+            services.AddScoped<IHttpClient, HttpClientWrapper>();
+            services.AddScoped<ISlackClient, SlackClient>();
         }
     }
 }

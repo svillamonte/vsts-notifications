@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using VstsNotifications.Entities;
+using VstsNotifications.Services.Interfaces;
+using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Models.PullRequest;
 using VstsNotifications.Webhooks.Properties;
 
@@ -15,9 +17,15 @@ namespace VstsNotifications.Webhooks.Controllers
     {
         private readonly Settings _settings;
 
-        public WebhooksController (IOptions<Settings> settings)
+        private readonly IMessageMapper _messageMapper;
+        private readonly IMessageService _messageService;
+
+        public WebhooksController (IOptions<Settings> settings, IMessageMapper messageMapper, IMessageService messageService)
         {
-            _settings = settings.Value;          
+            _settings = settings.Value;
+
+            _messageMapper = messageMapper;
+            _messageService = messageService;          
         }
 
         // GET api/values
@@ -38,8 +46,10 @@ namespace VstsNotifications.Webhooks.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]PullRequestPayload payload)
         {
-            var returnObject = new { date = payload, contributors = _settings };
-            return CreatedAtAction("Post", returnObject);
+            var message = _messageMapper.MapMessage(payload, _settings);
+            var result = _messageService.NotifyReviewers(message);
+            
+            return CreatedAtAction("Post", result);
         }
 
         // PUT api/values/5
