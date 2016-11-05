@@ -17,7 +17,7 @@ namespace VstsNotifications.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> PostMessage(SlackMessagePayload slackMessage, string webhookUrl)
+        public async Task<bool> PostMessageAsync(SlackMessagePayload slackMessage, string webhookUrl)
         {
             try 
             {

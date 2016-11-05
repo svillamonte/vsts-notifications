@@ -19,7 +19,7 @@ namespace VstsNotifications.Tests.Services
                 Text = "Que kayak"
             };
             var slackClient = new SlackClient(httpClient);
-            var response = slackClient.PostMessage(payload, url);
+            var response = slackClient.PostMessageAsync(payload, url);
 
             Assert.True(true);
         }

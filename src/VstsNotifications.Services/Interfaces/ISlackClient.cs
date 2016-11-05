@@ -5,6 +5,6 @@ namespace VstsNotifications.Services.Interfaces
 {
     public interface ISlackClient
     {
-        Task<bool> PostMessage(SlackMessagePayload slackMessage, string webhookUrl);
+        Task<bool> PostMessageAsync(SlackMessagePayload slackMessage, string webhookUrl);
     }
 }

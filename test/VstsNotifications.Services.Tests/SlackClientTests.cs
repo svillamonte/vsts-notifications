@@ -22,7 +22,7 @@ namespace VstsNotifications.Services.Tests
         }
 
         [Fact]
-        public async Task PostMessageWithAcceptedResponseReturnsTrue()
+        public async Task PostMessageAsyncWithAcceptedResponseReturnsTrue()
         {
             // Arrange
             const string webhookUrl = "https://some.good.url/";
@@ -38,14 +38,14 @@ namespace VstsNotifications.Services.Tests
                 .ReturnsAsync(httpResponseMessage);
 
             // Act
-            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
+            var response = await _slackClient.PostMessageAsync(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.True(response);
         }
 
         [Fact]
-        public async Task PostMessageWithBadRequestResponseReturnsFalse()
+        public async Task PostMessageAsyncWithBadRequestResponseReturnsFalse()
         {
             // Arrange
             const string webhookUrl = "https://some.good.url/";
@@ -61,14 +61,14 @@ namespace VstsNotifications.Services.Tests
                 .ReturnsAsync(httpResponseMessage);
                 
             // Act
-            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
+            var response = await _slackClient.PostMessageAsync(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.False(response);
         }
 
         [Fact]
-        public async Task PostMessageThrowsNullReferenceExceptionReturnsFalse()
+        public async Task PostMessageAsyncThrowsNullReferenceExceptionReturnsFalse()
         {
             // Arrange
             const string webhookUrl = "https://some.good.url/";
@@ -78,7 +78,7 @@ namespace VstsNotifications.Services.Tests
                 .Throws(new NullReferenceException());
                 
             // Act
-            var response = await _slackClient.PostMessage(new SlackMessagePayload(), webhookUrl);
+            var response = await _slackClient.PostMessageAsync(new SlackMessagePayload(), webhookUrl);
 
             // Assert
             Assert.False(response);

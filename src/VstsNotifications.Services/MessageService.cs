@@ -26,7 +26,7 @@ namespace VstsNotifications.Services
                 foreach (var pullRequestMessage in pullRequestMessages)
                 {
                     var payload = _slackMessagePayloadService.CreateSlackMessagePayload(pullRequestMessage);
-                    _slackClient.PostMessage(payload, message.SlackWebhookUrl.OriginalString);                
+                    _slackClient.PostMessageAsync(payload, message.SlackWebhookUrl.OriginalString);                
                 }
 
                 return true;

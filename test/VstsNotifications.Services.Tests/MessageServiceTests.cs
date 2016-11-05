@@ -52,7 +52,7 @@ namespace VstsNotifications.Services.Tests
             // Assert
             Assert.True(result);
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>()), Times.Never());
-            _mockSlackClient.Verify(x => x.PostMessage(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
         }
 
         [Fact]
@@ -91,8 +91,8 @@ namespace VstsNotifications.Services.Tests
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne), Times.Once());
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo), Times.Never());
             
-            _mockSlackClient.Verify(x => x.PostMessage(payloadOne, It.IsAny<string>()), Times.Never());
-            _mockSlackClient.Verify(x => x.PostMessage(payloadTwo, It.IsAny<string>()), Times.Never());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(payloadOne, It.IsAny<string>()), Times.Never());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(payloadTwo, It.IsAny<string>()), Times.Never());
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace VstsNotifications.Services.Tests
             Assert.True(result);
 
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>()), Times.Never());            
-            _mockSlackClient.Verify(x => x.PostMessage(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
         }
 
         [Fact]
@@ -155,8 +155,8 @@ namespace VstsNotifications.Services.Tests
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne), Times.Once());
             _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo), Times.Once());
             
-            _mockSlackClient.Verify(x => x.PostMessage(payloadOne, message.SlackWebhookUrl.OriginalString), Times.Once());
-            _mockSlackClient.Verify(x => x.PostMessage(payloadTwo, message.SlackWebhookUrl.OriginalString), Times.Once());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(payloadOne, message.SlackWebhookUrl.OriginalString), Times.Once());
+            _mockSlackClient.Verify(x => x.PostMessageAsync(payloadTwo, message.SlackWebhookUrl.OriginalString), Times.Once());
         }
     }
 }
