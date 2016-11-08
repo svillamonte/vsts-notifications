@@ -4,7 +4,7 @@ namespace VstsNotifications.Services.Models
 {
     public class PullRequestMessage
     {
-        public string ReviewerSlackHandle { get; set; }
+        public string ReviewerSlackUserId { get; set; }
 
         public string AuthorDisplayName { get; set; }
 

@@ -11,7 +11,8 @@ namespace VstsNotifications.Services
             payload.Attachments.Add(new SlackAttachment 
             { 
                 Text = 
-                    $"Hey @{pullRequestMessage.ReviewerSlackHandle}!, {pullRequestMessage.AuthorDisplayName} " + 
+                    $"Hey <@{pullRequestMessage.ReviewerSlackUserId}>!, " +
+                    $"{pullRequestMessage.AuthorDisplayName} " + 
                     $"assigned you a <{pullRequestMessage.PullRequestUrl.OriginalString}|pull request>." 
             });
 

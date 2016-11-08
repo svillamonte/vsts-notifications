@@ -10,7 +10,7 @@ namespace VstsNotifications.Services
     {
         public IEnumerable<PullRequestMessage> CreatePullRequestMessages(PullRequestInfo pullRequestInfo, IEnumerable<Contributor> contributorsInfo)
         {
-            var contributors = contributorsInfo.ToDictionary(key => key.Id, val => val.SlackHandle);
+            var contributors = contributorsInfo.ToDictionary(key => key.Id, val => val.SlackUserId);
 
             foreach (var reviewer in pullRequestInfo.Reviewers)
             {
@@ -22,7 +22,7 @@ namespace VstsNotifications.Services
 
                 yield return new PullRequestMessage
                 {
-                    ReviewerSlackHandle = contributors[reviewer.UniqueName],
+                    ReviewerSlackUserId = contributors[reviewer.UniqueName],
                     AuthorDisplayName = pullRequestInfo.Author.DisplayName,
                     PullRequestUrl = pullRequestInfo.Url
                 };

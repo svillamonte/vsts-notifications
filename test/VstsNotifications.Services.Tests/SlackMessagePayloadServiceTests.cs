@@ -32,7 +32,7 @@ namespace VstsNotifications.Services.Tests
             // Arrange
             var pullRequestMessage = new PullRequestMessage
             {
-                ReviewerSlackHandle = "shandle",
+                ReviewerSlackUserId = "suserid",
                 AuthorDisplayName = "Author name",
                 PullRequestUrl = new Uri("https://my.pullrequest.com")
             };
@@ -43,7 +43,7 @@ namespace VstsNotifications.Services.Tests
             // Assert
             Assert.NotNull(payload);
             Assert.Equal("Visual Studio Team Services", payload.Username);
-            Assert.Equal("Hey @shandle!, Author name assigned you a <https://my.pullrequest.com|pull request>.", payload.Attachments[0].Text);
+            Assert.Equal("Hey <@suserid>!, Author name assigned you a <https://my.pullrequest.com|pull request>.", payload.Attachments[0].Text);
         }
     }
 }

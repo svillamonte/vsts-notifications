@@ -64,8 +64,8 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestPayload = new PullRequestPayload();
             
-            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackHandle = "one" };
-            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackHandle = "two" };
+            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackUserId = "one" };
+            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackUserId = "two" };
             
             var settings = new Settings
             {
@@ -103,8 +103,8 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestPayload = new PullRequestPayload();
             
-            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackHandle = "one" };
-            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackHandle = "two" };
+            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackUserId = "one" };
+            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackUserId = "two" };
             
             var settings = new Settings
             {
