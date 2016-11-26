@@ -57,6 +57,7 @@ namespace VstsNotifications.Webhooks
             services.AddScoped<ICollaboratorMapper, CollaboratorMapper>();
             services.AddScoped<IMessageMapper, MessageMapper>();
             services.AddScoped<IPullRequestInfoMapper, PullRequestInfoMapper>();
+            services.AddScoped<ILinksMapper, LinksMapper>();
         }
 
         private void AddServices(IServiceCollection services)

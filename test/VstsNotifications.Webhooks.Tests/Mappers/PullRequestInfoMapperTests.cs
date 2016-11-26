@@ -12,13 +12,16 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
 {
     public class PullRequestInfoMapperTests
     {
+        private readonly Mock<ILinksMapper> _mockLinksMapper;
         private readonly Mock<ICollaboratorMapper> _mockCollaboratorMapper;
         private readonly IPullRequestInfoMapper _pullRequestInfoMapper;
 
         public PullRequestInfoMapperTests()
         {
             _mockCollaboratorMapper = new Mock<ICollaboratorMapper>();
-            _pullRequestInfoMapper = new PullRequestInfoMapper(_mockCollaboratorMapper.Object);
+            _mockLinksMapper = new Mock<ILinksMapper>();
+
+            _pullRequestInfoMapper = new PullRequestInfoMapper(_mockLinksMapper.Object, _mockCollaboratorMapper.Object);
         }
 
         [Fact]
@@ -39,10 +42,14 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestResource = new PullRequestResource();
 
+            _mockLinksMapper
+                .Setup(x => x.GetWebUrl(pullRequestResource.Links))
+                .Returns(pullRequestResource.Links.Web.Url);
+
             _mockCollaboratorMapper
                 .Setup(x => x.MapCollaborator(pullRequestResource.CreatedBy))
                 .Returns(new Collaborator());
-
+            
             // Act
             var pullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestResource);
 
@@ -60,9 +67,13 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestResource = new PullRequestResource 
             {
-                Url = new Uri("https://wwww.myurl.com"),
+                Links = new Links { Web = new Link { Url = new Uri("https://wwww.myurl.com") } },
                 CreatedBy = new Contributor { UniqueName = "unique", DisplayName = "display" }
             };
+
+            _mockLinksMapper
+                .Setup(x => x.GetWebUrl(pullRequestResource.Links))
+                .Returns(pullRequestResource.Links.Web.Url);
 
             _mockCollaboratorMapper
                 .Setup(x => x.MapCollaborator(pullRequestResource.CreatedBy))
@@ -73,7 +84,7 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
 
             // Assert
             Assert.NotNull(pullRequestInfo);
-            Assert.Equal(pullRequestResource.Url, pullRequestInfo.Url);
+            Assert.Equal(pullRequestResource.Links.Web.Url, pullRequestInfo.Url);
             Assert.Equal(pullRequestResource.CreatedBy.UniqueName, pullRequestInfo.Author.UniqueName);
             Assert.Equal(pullRequestResource.CreatedBy.DisplayName, pullRequestInfo.Author.DisplayName);
             Assert.Empty(pullRequestInfo.Reviewers);

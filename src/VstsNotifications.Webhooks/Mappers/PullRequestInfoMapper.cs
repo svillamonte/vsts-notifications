@@ -6,10 +6,12 @@ namespace VstsNotifications.Webhooks.Mappers
 {
     public class PullRequestInfoMapper : IPullRequestInfoMapper
     {
+        private readonly ILinksMapper _linksMapper;
         private readonly ICollaboratorMapper _collaboratorMapper;
 
-        public PullRequestInfoMapper (ICollaboratorMapper collaboratorMapper)
+        public PullRequestInfoMapper (ILinksMapper linksMapper, ICollaboratorMapper collaboratorMapper)
         {
+            _linksMapper = linksMapper;
             _collaboratorMapper = collaboratorMapper;          
         }
 
@@ -17,7 +19,7 @@ namespace VstsNotifications.Webhooks.Mappers
         {
             var pullRequestInfo = new PullRequestInfo
             {
-                Url = pullRequestResource.Url,
+                Url = _linksMapper.GetWebUrl(pullRequestResource.Links),
                 Author = _collaboratorMapper.MapCollaborator(pullRequestResource.CreatedBy)
             };
             

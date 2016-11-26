@@ -11,6 +11,7 @@ namespace VstsNotifications.Webhooks.Models.PullRequest
         {          
             CreatedBy = new Contributor();
             Reviewers = new Collection<Reviewer>();
+            Links = new Links();
         }
 
         [JsonProperty("repository")]
@@ -60,6 +61,9 @@ namespace VstsNotifications.Webhooks.Models.PullRequest
 
         [JsonProperty("url")]
         public Uri Url { get; set; }
+
+        [JsonProperty("_links")]
+        public Links Links { get; set; }
 
         [JsonProperty("supportsIterations")]
         public bool SupportsIterations { get; set; }
