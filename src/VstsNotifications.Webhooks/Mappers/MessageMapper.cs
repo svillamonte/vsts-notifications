@@ -1,7 +1,7 @@
 using System;
 using VstsNotifications.Services.Models;
 using VstsNotifications.Webhooks.Interfaces;
-using VstsNotifications.Webhooks.Models.PullRequest;
+using VstsNotifications.Models.Payloads.PullRequest;
 using VstsNotifications.Webhooks.Properties;
 
 namespace VstsNotifications.Webhooks.Mappers

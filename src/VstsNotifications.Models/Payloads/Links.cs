@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace VstsNotifications.Webhooks.Models
+namespace VstsNotifications.Models.Payloads
 {
     public class Links
     {

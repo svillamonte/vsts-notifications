@@ -3,10 +3,10 @@ using Moq;
 using Xunit;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Mappers;
-using VstsNotifications.Webhooks.Models;
-using VstsNotifications.Webhooks.Models.PullRequest;
+using VstsNotifications.Models.Payloads.PullRequest;
 using VstsNotifications.Services.Models;
 using System.Collections.Generic;
+using VstsNotifications.Models.Payloads;
 
 namespace VstsNotifications.Webhooks.Tests.Mappers
 {

@@ -1,5 +1,5 @@
 using System;
-using VstsNotifications.Webhooks.Models;
+using VstsNotifications.Models.Payloads;
 
 namespace VstsNotifications.Webhooks.Interfaces
 {

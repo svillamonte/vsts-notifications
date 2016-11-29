@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Mappers;
-using VstsNotifications.Webhooks.Models;
+using VstsNotifications.Models.Payloads;
 
 namespace VstsNotifications.Webhooks.Tests.Mappers
 {
