@@ -1,7 +1,7 @@
+using System;
 using Xunit;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
-using System;
 
 namespace VstsNotifications.Services.Tests
 {

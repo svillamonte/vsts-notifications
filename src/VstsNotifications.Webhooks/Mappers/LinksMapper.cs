@@ -1,6 +1,6 @@
 using System;
-using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Models.Payloads;
+using VstsNotifications.Webhooks.Interfaces;
 
 namespace VstsNotifications.Webhooks.Mappers
 {

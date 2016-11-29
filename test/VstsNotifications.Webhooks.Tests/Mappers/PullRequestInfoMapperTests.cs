@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Moq;
 using Xunit;
-using VstsNotifications.Webhooks.Interfaces;
-using VstsNotifications.Webhooks.Mappers;
+using VstsNotifications.Models.Payloads;
 using VstsNotifications.Models.Payloads.PullRequest;
 using VstsNotifications.Services.Models;
-using System.Collections.Generic;
-using VstsNotifications.Models.Payloads;
+using VstsNotifications.Webhooks.Interfaces;
+using VstsNotifications.Webhooks.Mappers;
 
 namespace VstsNotifications.Webhooks.Tests.Mappers
 {

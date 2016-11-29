@@ -1,5 +1,5 @@
-using VstsNotifications.Services.Models;
 using VstsNotifications.Models.Payloads.PullRequest;
+using VstsNotifications.Services.Models;
 using VstsNotifications.Webhooks.Properties;
 
 namespace VstsNotifications.Webhooks.Interfaces

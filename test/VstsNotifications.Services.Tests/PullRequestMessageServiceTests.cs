@@ -1,9 +1,9 @@
 using System;
+using System.Linq;
 using Xunit;
+using VstsNotifications.Models;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
-using VstsNotifications.Models;
-using System.Linq;
 
 namespace VstsNotifications.Services.Tests
 {

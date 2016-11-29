@@ -1,11 +1,11 @@
 using System;
 using System.Net;
-using Xunit;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Moq;
+using Xunit;
 using VstsNotifications.Services.Interfaces;
-using System.Text;
-using System.Net.Http;
 using VstsNotifications.Services.Models;
 
 namespace VstsNotifications.Services.Tests
