@@ -1,4 +1,4 @@
-namespace VstsNotifications.Entities
+namespace VstsNotifications.Models
 {
     public class Contributor
     {

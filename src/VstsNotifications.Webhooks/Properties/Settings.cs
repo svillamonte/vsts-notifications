@@ -1,4 +1,4 @@
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 
 namespace VstsNotifications.Webhooks.Properties
 {

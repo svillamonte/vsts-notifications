@@ -12,6 +12,6 @@
   },
 
   "tooling": {
-    "defaultNamespace": "VstsNotifications.Entities"
+    "defaultNamespace": "VstsNotifications.Models"
   }
 }

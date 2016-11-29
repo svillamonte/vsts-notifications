@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 using System.Linq;
 
 namespace VstsNotifications.Services.Tests

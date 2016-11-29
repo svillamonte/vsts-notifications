@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Models.PullRequest;

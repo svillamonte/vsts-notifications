@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
 

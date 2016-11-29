@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 using VstsNotifications.Services.Models;
 
 namespace VstsNotifications.Services.Interfaces

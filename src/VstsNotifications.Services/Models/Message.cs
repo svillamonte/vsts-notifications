@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using VstsNotifications.Entities;
+using VstsNotifications.Models;
 
 namespace VstsNotifications.Services.Models
 {

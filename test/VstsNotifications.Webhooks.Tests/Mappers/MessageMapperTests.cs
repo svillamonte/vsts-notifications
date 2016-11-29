@@ -1,6 +1,7 @@
 using System;
 using Moq;
 using Xunit;
+using VstsNotifications.Models;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Mappers;
 using VstsNotifications.Webhooks.Models.PullRequest;
@@ -64,8 +65,8 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestPayload = new PullRequestPayload();
             
-            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackUserId = "one" };
-            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackUserId = "two" };
+            var contributorOne = new Contributor { Id = "one@contributor.com", SlackUserId = "one" };
+            var contributorTwo = new Contributor { Id = "two@contributor.com", SlackUserId = "two" };
             
             var settings = new Settings
             {
@@ -103,8 +104,8 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             // Arrange
             var pullRequestPayload = new PullRequestPayload();
             
-            var contributorOne = new Entities.Contributor { Id = "one@contributor.com", SlackUserId = "one" };
-            var contributorTwo = new Entities.Contributor { Id = "two@contributor.com", SlackUserId = "two" };
+            var contributorOne = new Contributor { Id = "one@contributor.com", SlackUserId = "one" };
+            var contributorTwo = new Contributor { Id = "two@contributor.com", SlackUserId = "two" };
             
             var settings = new Settings
             {

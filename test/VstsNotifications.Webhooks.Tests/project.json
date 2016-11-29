@@ -8,7 +8,7 @@
         "VstsNotifications.Webhooks": {
             "target": "project"
         },
-        "VstsNotifications.Entities": {
+        "VstsNotifications.Models": {
             "target": "project"
         }
     },

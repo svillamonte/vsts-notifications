@@ -11,7 +11,7 @@
     "VstsNotifications.Services": {
       "target": "project"
     },
-    "VstsNotifications.Entities": {
+    "VstsNotifications.Models": {
       "target": "project"
     }
   },
