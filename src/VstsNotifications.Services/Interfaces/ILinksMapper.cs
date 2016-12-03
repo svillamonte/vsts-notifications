@@ -1,7 +1,7 @@
 using System;
 using VstsNotifications.Models.Payloads;
 
-namespace VstsNotifications.Webhooks.Interfaces
+namespace VstsNotifications.Services.Interfaces
 {
     public interface ILinksMapper
     {

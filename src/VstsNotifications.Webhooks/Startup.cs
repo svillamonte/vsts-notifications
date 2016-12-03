@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VstsNotifications.Services;
 using VstsNotifications.Services.Interfaces;
+using VstsNotifications.Services.Mappers;
 using VstsNotifications.Services.Wrappers;
 using VstsNotifications.Webhooks.Interfaces;
 using VstsNotifications.Webhooks.Mappers;
