@@ -4,7 +4,7 @@ using VstsNotifications.Models.Payloads;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Mappers;
 
-namespace VstsNotifications.Webhooks.Tests.Mappers
+namespace VstsNotifications.Services.Tests.Mappers
 {
     public class CollaboratorMapperTests
     {

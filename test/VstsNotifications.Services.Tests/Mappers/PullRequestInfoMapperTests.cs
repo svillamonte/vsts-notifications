@@ -8,7 +8,7 @@ using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Mappers;
 using VstsNotifications.Services.Models;
 
-namespace VstsNotifications.Webhooks.Tests.Mappers
+namespace VstsNotifications.Services.Tests.Mappers
 {
     public class PullRequestInfoMapperTests
     {
