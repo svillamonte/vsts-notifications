@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VstsNotifications.Services;
+using VstsNotifications.Services.Builders;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Mappers;
 using VstsNotifications.Services.Wrappers;
@@ -62,6 +63,7 @@ namespace VstsNotifications.Webhooks
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IPullRequestMessageService, PullRequestMessageService>();
             services.AddScoped<ISlackMessagePayloadService, SlackMessagePayloadService>();
+            services.AddScoped<ISlackUserMentionBuilder, SlackUserMentionBuilder>();
 
             services.AddScoped<IHttpClient, HttpClientWrapper>();
             services.AddScoped<ISlackClient, SlackClient>();

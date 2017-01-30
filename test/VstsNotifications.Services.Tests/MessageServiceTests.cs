@@ -65,8 +65,8 @@ namespace VstsNotifications.Services.Tests
                 PullRequestInfo = new PullRequestInfo()
             };
 
-            var pullRequestMessageOne = new PullRequestMessage { ReviewerSlackUserId = "shone" }; 
-            var pullRequestMessageTwo = new PullRequestMessage { ReviewerSlackUserId = "shtwo" }; 
+            var pullRequestMessageOne = new PullRequestMessage { ReviewersSlackUserId = new [] { "shone" } }; 
+            var pullRequestMessageTwo = new PullRequestMessage { ReviewersSlackUserId = new [] { "shtwo" } }; 
 
             var payloadOne = new SlackMessagePayload { Username = "Payload one" };
             var payloadTwo = new SlackMessagePayload { Username = "Payload two" };
@@ -129,8 +129,8 @@ namespace VstsNotifications.Services.Tests
                 PullRequestInfo = new PullRequestInfo()
             };
 
-            var pullRequestMessageOne = new PullRequestMessage { ReviewerSlackUserId = "shone" }; 
-            var pullRequestMessageTwo = new PullRequestMessage { ReviewerSlackUserId = "shtwo" }; 
+            var pullRequestMessageOne = new PullRequestMessage { ReviewersSlackUserId = new [] { "shone" } }; 
+            var pullRequestMessageTwo = new PullRequestMessage { ReviewersSlackUserId = new [] { "shtwo" } }; 
 
             var payloadOne = new SlackMessagePayload { Username = "Payload one" };
             var payloadTwo = new SlackMessagePayload { Username = "Payload two" };

@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 
 namespace VstsNotifications.Services.Models
 {
     public class PullRequestMessage
     {
-        public string ReviewerSlackUserId { get; set; }
+        public IEnumerable<string> ReviewersSlackUserId { get; set; }
 
         public string AuthorDisplayName { get; set; }
 

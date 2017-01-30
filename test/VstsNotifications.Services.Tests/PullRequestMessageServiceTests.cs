@@ -27,10 +27,9 @@ namespace VstsNotifications.Services.Tests
             var contributorsInfo = new [] { contributorOne, contributorTwo };
 
             // Act
-            var pullRequestMessages = _pullRequestMessageService.CreatePullRequestMessages(pullRequestInfo, contributorsInfo);
 
             // Assert
-            Assert.Throws<NullReferenceException>(() => pullRequestMessages.ToList());
+            Assert.Throws<NullReferenceException>(() => _pullRequestMessageService.CreatePullRequestMessages(pullRequestInfo, contributorsInfo));
         }
         
         [Fact]
@@ -96,15 +95,12 @@ namespace VstsNotifications.Services.Tests
 
             // Assert
             Assert.NotNull(pullRequestMessages);
-            Assert.Equal(pullRequestInfo.Reviewers.Count, pullRequestMessages.Count());
+            Assert.Equal(1, pullRequestMessages.Count());
 
-            Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewerSlackUserId);
+            Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(0));
+            Assert.Equal(contributorTwo.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(1));            
             Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(0).AuthorDisplayName);
             Assert.Equal(pullRequestInfo.Url, pullRequestMessages.ElementAt(0).PullRequestUrl);
-
-            Assert.Equal(contributorTwo.SlackUserId, pullRequestMessages.ElementAt(1).ReviewerSlackUserId);
-            Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(1).AuthorDisplayName);
-            Assert.Equal(pullRequestInfo.Url, pullRequestMessages.ElementAt(1).PullRequestUrl);
         }
 
         [Fact]
@@ -134,9 +130,10 @@ namespace VstsNotifications.Services.Tests
 
             // Assert
             Assert.NotNull(pullRequestMessages);
-            Assert.Equal(pullRequestInfo.Reviewers.Count - 1, pullRequestMessages.Count());
+            Assert.Equal(1, pullRequestMessages.Count());
+            Assert.Equal(1, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.Count());
 
-            Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewerSlackUserId);
+            Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(0));
             Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(0).AuthorDisplayName);
             Assert.Equal(pullRequestInfo.Url, pullRequestMessages.ElementAt(0).PullRequestUrl);
         }
