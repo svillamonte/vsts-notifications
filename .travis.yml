@@ -1,0 +1,9 @@
+language: csharp
+mono: none
+dotnet: 1.0.0-preview2-003131
+install:
+    - dotnet restore
+script:
+    - dotnet build */**/project.json
+    - dotnet test test/VstsNotifications.Services.Tests/project.json
+    - dotnet test test/VstsNotifications.Webhooks.Tests/project.json
