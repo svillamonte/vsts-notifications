@@ -3,6 +3,8 @@ dist: trusty
 sudo: required
 mono: none
 dotnet: 1.0.0-preview2-003131
+notifications:
+    email: false
 install:
     - dotnet restore
 script:

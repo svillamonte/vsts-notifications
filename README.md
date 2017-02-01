@@ -29,4 +29,11 @@ From this:
 
 Under the `Settings` section, replace the `SlackWebhookUrl` with your integration of choice.
 
-_With :heart:_
+### VSTS webhooks
+
+How to configure VSTS so that it is able to send requests to our webhook:
+* _Pull requests created._ You need to add a new service hook for the "Pull request created" event using the following URL: `http://[Your public domain]/api/pullrequestcreated`.
+
+## Thanks you!
+
+_With plenty of_ :heart: _from the other side of the world._
