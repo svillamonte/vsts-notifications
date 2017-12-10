@@ -95,7 +95,7 @@ namespace VstsNotifications.Services.Tests
 
             // Assert
             Assert.NotNull(pullRequestMessages);
-            Assert.Equal(1, pullRequestMessages.Count());
+            Assert.Single(pullRequestMessages);
 
             Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(0));
             Assert.Equal(contributorTwo.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(1));            
@@ -130,8 +130,8 @@ namespace VstsNotifications.Services.Tests
 
             // Assert
             Assert.NotNull(pullRequestMessages);
-            Assert.Equal(1, pullRequestMessages.Count());
-            Assert.Equal(1, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.Count());
+            Assert.Single(pullRequestMessages);
+            Assert.Single(pullRequestMessages.ElementAt(0).ReviewersSlackUserId);
 
             Assert.Equal(contributorOne.SlackUserId, pullRequestMessages.ElementAt(0).ReviewersSlackUserId.ElementAt(0));
             Assert.Equal(author.DisplayName, pullRequestMessages.ElementAt(0).AuthorDisplayName);
