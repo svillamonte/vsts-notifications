@@ -1,3 +1,4 @@
+using VstsNotifications.Models;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
 
@@ -12,13 +13,13 @@ namespace VstsNotifications.Services
             _slackUserMentionBuilder = slackUserMentionBuilder;
         }
 
-        public SlackMessagePayload CreateSlackMessagePayload(PullRequestMessage pullRequestMessage)
+        public SlackMessagePayload CreateSlackMessagePayload(PullRequestMessage pullRequestMessage, UserGroup defaultUserGroup)
         {
             var payload = new SlackMessagePayload { Username = "Visual Studio Team Services" };
             payload.Attachments.Add(new SlackAttachment 
             { 
                 Text = 
-                    $"Hey {_slackUserMentionBuilder.BuildSlackUserMentions(pullRequestMessage.ReviewersSlackUserId)}!, " +
+                    $"Hey {_slackUserMentionBuilder.BuildSlackUserMentions(pullRequestMessage.ReviewersSlackUserId, defaultUserGroup)}!, " +
                     $"{pullRequestMessage.AuthorDisplayName} " + 
                     $"assigned you a <{pullRequestMessage.PullRequestUrl.OriginalString}|pull request>." 
             });

@@ -4,16 +4,19 @@ using Xunit;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
 using System.Collections.Generic;
+using VstsNotifications.Models;
 
 namespace VstsNotifications.Services.Tests
 {
     public class SlackMessagePayloadServiceTests
     {
+        private readonly UserGroup _defaultUserGroup;
         private readonly Mock<ISlackUserMentionBuilder> _mockSlackUserMentionBuilder;
         private readonly ISlackMessagePayloadService _slackMessagePayloadService;
 
         public SlackMessagePayloadServiceTests ()
         {
+            _defaultUserGroup = new UserGroup { SlackHandle = "the-handle", SlackUserGroupId = "usergroupid" };
             _mockSlackUserMentionBuilder = new Mock<ISlackUserMentionBuilder>();
 
             _slackMessagePayloadService = new SlackMessagePayloadService(_mockSlackUserMentionBuilder.Object);          
@@ -28,7 +31,7 @@ namespace VstsNotifications.Services.Tests
             // Act
 
             // Assert
-            Assert.Throws<NullReferenceException>(() => _slackMessagePayloadService.CreateSlackMessagePayload(pullRequestMessage));
+            Assert.Throws<NullReferenceException>(() => _slackMessagePayloadService.CreateSlackMessagePayload(pullRequestMessage, _defaultUserGroup));
         }
 
         [Fact]
@@ -43,11 +46,11 @@ namespace VstsNotifications.Services.Tests
             };
 
             _mockSlackUserMentionBuilder
-                .Setup(x => x.BuildSlackUserMentions(pullRequestMessage.ReviewersSlackUserId))
+                .Setup(x => x.BuildSlackUserMentions(pullRequestMessage.ReviewersSlackUserId, _defaultUserGroup))
                 .Returns("<@suserid1>, <@suserid2>");
 
             // Act
-            var payload = _slackMessagePayloadService.CreateSlackMessagePayload(pullRequestMessage);
+            var payload = _slackMessagePayloadService.CreateSlackMessagePayload(pullRequestMessage, _defaultUserGroup);
 
             // Assert
             Assert.NotNull(payload);

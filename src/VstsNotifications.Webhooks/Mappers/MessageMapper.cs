@@ -24,6 +24,7 @@ namespace VstsNotifications.Webhooks.Mappers
                 { 
                     SlackWebhookUrl = new Uri(settings.SlackWebhookUrl),
                     Contributors = settings.Contributors,
+                    DefaultUserGroup = settings.DefaultUserGroup,
                     PullRequestInfo = _pullRequestInfoMapper.MapPullRequestInfo(pullRequestPayload.Resource) 
                 };
             }

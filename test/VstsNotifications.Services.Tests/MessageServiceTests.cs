@@ -3,11 +3,13 @@ using Moq;
 using Xunit;
 using VstsNotifications.Services.Interfaces;
 using VstsNotifications.Services.Models;
+using VstsNotifications.Models;
 
 namespace VstsNotifications.Services.Tests
 {
     public class MessageServiceTests
     {
+        private readonly UserGroup _defaultUserGroup;
         private readonly Mock<IPullRequestMessageService> _mockPullRequestMessageService;
         private readonly Mock<ISlackMessagePayloadService> _mockSlackMessagePayloadService;
         private readonly Mock<ISlackClient> _mockSlackClient;
@@ -16,6 +18,8 @@ namespace VstsNotifications.Services.Tests
         
         public MessageServiceTests()
         {
+            _defaultUserGroup = new UserGroup { SlackHandle = "the-handle", SlackUserGroupId = "usergroupid" };
+
             _mockPullRequestMessageService = new Mock<IPullRequestMessageService>();
             _mockSlackMessagePayloadService = new Mock<ISlackMessagePayloadService>();
             _mockSlackClient = new Mock<ISlackClient>();
@@ -51,7 +55,7 @@ namespace VstsNotifications.Services.Tests
 
             // Assert
             Assert.True(result);
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>()), Times.Never());
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>(), _defaultUserGroup), Times.Never());
             _mockSlackClient.Verify(x => x.PostMessageAsync(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
         }
 
@@ -62,7 +66,8 @@ namespace VstsNotifications.Services.Tests
             var message = new Message
             {
                 SlackWebhookUrl = null,
-                PullRequestInfo = new PullRequestInfo()
+                PullRequestInfo = new PullRequestInfo(),
+                DefaultUserGroup = _defaultUserGroup
             };
 
             var pullRequestMessageOne = new PullRequestMessage { ReviewersSlackUserId = new [] { "shone" } }; 
@@ -76,10 +81,10 @@ namespace VstsNotifications.Services.Tests
                 .Returns(new [] { pullRequestMessageOne, pullRequestMessageTwo });
 
             _mockSlackMessagePayloadService
-                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageOne))
+                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageOne, _defaultUserGroup))
                 .Returns(payloadOne);
             _mockSlackMessagePayloadService
-                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageTwo))
+                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageTwo, _defaultUserGroup))
                 .Returns(payloadTwo);
 
             // Act
@@ -88,8 +93,8 @@ namespace VstsNotifications.Services.Tests
             // Assert
             Assert.False(result);
 
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne), Times.Once());
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo), Times.Never());
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne, _defaultUserGroup), Times.Once());
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo, _defaultUserGroup), Times.Never());
             
             _mockSlackClient.Verify(x => x.PostMessageAsync(payloadOne, It.IsAny<string>()), Times.Never());
             _mockSlackClient.Verify(x => x.PostMessageAsync(payloadTwo, It.IsAny<string>()), Times.Never());
@@ -102,7 +107,8 @@ namespace VstsNotifications.Services.Tests
             var message = new Message
             {
                 SlackWebhookUrl = new Uri("https://my.webhook.com"),
-                PullRequestInfo = new PullRequestInfo()
+                PullRequestInfo = new PullRequestInfo(),
+                DefaultUserGroup = _defaultUserGroup
             };
 
             _mockPullRequestMessageService
@@ -115,7 +121,7 @@ namespace VstsNotifications.Services.Tests
             // Assert
             Assert.True(result);
 
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>()), Times.Never());            
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(It.IsAny<PullRequestMessage>(), _defaultUserGroup), Times.Never());            
             _mockSlackClient.Verify(x => x.PostMessageAsync(It.IsAny<SlackMessagePayload>(), It.IsAny<string>()), Times.Never());
         }
 
@@ -126,7 +132,8 @@ namespace VstsNotifications.Services.Tests
             var message = new Message
             {
                 SlackWebhookUrl = new Uri("https://my.webhook.com"),
-                PullRequestInfo = new PullRequestInfo()
+                PullRequestInfo = new PullRequestInfo(),
+                DefaultUserGroup = _defaultUserGroup
             };
 
             var pullRequestMessageOne = new PullRequestMessage { ReviewersSlackUserId = new [] { "shone" } }; 
@@ -140,10 +147,10 @@ namespace VstsNotifications.Services.Tests
                 .Returns(new [] { pullRequestMessageOne, pullRequestMessageTwo });
 
             _mockSlackMessagePayloadService
-                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageOne))
+                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageOne, _defaultUserGroup))
                 .Returns(payloadOne);
             _mockSlackMessagePayloadService
-                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageTwo))
+                .Setup(x => x.CreateSlackMessagePayload(pullRequestMessageTwo, _defaultUserGroup))
                 .Returns(payloadTwo);
 
             // Act
@@ -152,8 +159,8 @@ namespace VstsNotifications.Services.Tests
             // Assert
             Assert.True(result);
 
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne), Times.Once());
-            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo), Times.Once());
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageOne, _defaultUserGroup), Times.Once());
+            _mockSlackMessagePayloadService.Verify(x => x.CreateSlackMessagePayload(pullRequestMessageTwo, _defaultUserGroup), Times.Once());
             
             _mockSlackClient.Verify(x => x.PostMessageAsync(payloadOne, message.SlackWebhookUrl.OriginalString), Times.Once());
             _mockSlackClient.Verify(x => x.PostMessageAsync(payloadTwo, message.SlackWebhookUrl.OriginalString), Times.Once());

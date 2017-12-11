@@ -17,6 +17,8 @@ namespace VstsNotifications.Services.Models
 
         public ICollection<Contributor> Contributors { get; set; }
 
+        public UserGroup DefaultUserGroup { get; set; }
+
         public PullRequestInfo PullRequestInfo { get; set; }
     }
 }

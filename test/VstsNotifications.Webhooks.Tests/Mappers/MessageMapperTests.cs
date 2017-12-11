@@ -13,12 +13,15 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
 {
     public class MessageMapperTests
     {
+        private readonly UserGroup _defaultUserGroup;
         private readonly Mock<IPullRequestInfoMapper> _mockPullRequestInfoMapper;
         private readonly IMessageMapper _messageMapper;
 
         public MessageMapperTests()
         {
+            _defaultUserGroup = new UserGroup { SlackHandle = "the-handle", SlackUserGroupId = "usergroupid" };
             _mockPullRequestInfoMapper = new Mock<IPullRequestInfoMapper>();
+
             _messageMapper = new MessageMapper(_mockPullRequestInfoMapper.Object);
         }
 
@@ -72,7 +75,8 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             var settings = new Settings
             {
                 SlackWebhookUrl = null,
-                Contributors = new [] { contributorOne, contributorTwo }
+                Contributors = new [] { contributorOne, contributorTwo },
+                DefaultUserGroup = _defaultUserGroup
             };
 
             var reviewerOne = new Collaborator { UniqueName = "rone unique", DisplayName = "rone display" };
@@ -107,11 +111,12 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             
             var contributorOne = new Contributor { Id = "one@contributor.com", SlackUserId = "one" };
             var contributorTwo = new Contributor { Id = "two@contributor.com", SlackUserId = "two" };
-            
+
             var settings = new Settings
             {
                 SlackWebhookUrl = "htttp://slack.webhook.com",
-                Contributors = new [] { contributorOne, contributorTwo }
+                Contributors = new [] { contributorOne, contributorTwo },
+                DefaultUserGroup = _defaultUserGroup
             };
 
             var reviewerOne = new Collaborator { UniqueName = "rone unique", DisplayName = "rone display" };
@@ -138,6 +143,7 @@ namespace VstsNotifications.Webhooks.Tests.Mappers
             Assert.Equal(2, settings.Contributors.Length);
             Assert.Equal(contributorOne, settings.Contributors[0]);
             Assert.Equal(contributorTwo, settings.Contributors[1]);
+            Assert.Equal(_defaultUserGroup, message.DefaultUserGroup);
             Assert.Equal(pullRequestInfo, message.PullRequestInfo);
         }
     }

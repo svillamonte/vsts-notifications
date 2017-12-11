@@ -12,5 +12,7 @@ namespace VstsNotifications.Webhooks.Properties
         public string SlackWebhookUrl { get; set; }
         
         public Contributor[] Contributors { get; set; }
+
+        public UserGroup DefaultUserGroup { get; set; }
     }
 }
