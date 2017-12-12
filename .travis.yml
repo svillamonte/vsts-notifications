@@ -5,8 +5,6 @@ mono: none
 dotnet: 2.0.0
 notifications:
     email: false
-install:
-    - dotnet restore
 script:
     - dotnet build */**/*.csproj
     - dotnet test test/VstsNotifications.Services.Tests/VstsNotifications.Services.Tests.csproj
