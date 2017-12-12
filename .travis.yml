@@ -2,12 +2,12 @@ language: csharp
 dist: trusty
 sudo: required
 mono: none
-dotnet: 1.0.0-preview2-003131
+dotnet: 2.0.0
 notifications:
     email: false
 install:
     - dotnet restore
 script:
-    - dotnet build */**/project.json
-    - dotnet test test/VstsNotifications.Services.Tests/project.json
-    - dotnet test test/VstsNotifications.Webhooks.Tests/project.json
+    - dotnet build */**/*.csproj
+    - dotnet test test/VstsNotifications.Services.Tests/VstsNotifications.Services.Tests.csproj
+    - dotnet test test/VstsNotifications.Webhooks.Tests/VstsNotifications.Webhooks.Tests.csproj
