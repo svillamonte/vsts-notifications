@@ -6,6 +6,6 @@ dotnet: 2.0.0
 notifications:
     email: false
 script:
-    - dotnet build */**/*.csproj
+    - dotnet build VstsNotifications.sln
     - dotnet test test/VstsNotifications.Services.Tests/VstsNotifications.Services.Tests.csproj
     - dotnet test test/VstsNotifications.Webhooks.Tests/VstsNotifications.Webhooks.Tests.csproj
